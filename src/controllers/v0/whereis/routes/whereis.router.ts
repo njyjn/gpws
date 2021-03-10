@@ -31,30 +31,29 @@ router.patch('/:chatId', async (req: Request, res: Response) => {
     const { chatId }  = req.params
     const { patchType, status, source, lattitude, longitude } = req.body
     if(chatId) {
-        var user:Whereis
+        var user = await Whereis.findByPk(chatId)
+        if (!user) {
+            return res.status(404).send({error: 'user not found'})
+        }
         var updated_user:Whereis
-        if (patchType === 'heatbeat' && status && source) {
-            user = await Whereis.findByPk(chatId)
+        if (patchType === 'heartbeat' && status && source) {
             updated_user = await user.update({
                 status: status,
                 source: source
             })
         } else if (patchType === 'locupdate' && lattitude && longitude) {
-            user = await Whereis.findByPk(chatId)
             updated_user = await user.update({
                 lattitude: lattitude,
                 longitude: longitude
             })
         }
-        if(user) {
+        if (updated_user) {
             res.send({user: updated_user})
         } else {
-            res.status(201).send({user: defaultUser(chatId)})
+            res.status(500).send({error: 'something went wrong'})
         }
     } else {
-        res.status(201).send({
-            user: defaultUser(chatId)
-        })
+        res.status(401).send({error: 'chat id must be specified'})
     }
 })
 
