@@ -13,13 +13,13 @@ router.get('/:chatId', async (req: Request, res: Response) => {
     if(user) {
         res.send({user: user})
     } else {
-        res.status(200).send({user: defaultUser(chatId)})
+        res.status(404).send({error: 'user not found'})
     }
 })
 
 router.post('/', async (req: Request, res: Response)=> {
     const body = req.body
-    if(body.chat_id) {
+    if(body.chatId) {
         const user = await Whereis.create(body)
         res.status(201).send({user: user})
     } else {

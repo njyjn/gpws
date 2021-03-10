@@ -28,6 +28,5 @@ benchmarks/graphs
 
 .env
 logfile
-
-# db
-aletheon-gpws
+production.env
+staging.env

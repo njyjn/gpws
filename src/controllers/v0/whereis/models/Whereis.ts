@@ -4,7 +4,7 @@ import {Table, Column, Model, PrimaryKey, CreatedAt, UpdatedAt} from 'sequelize-
 export class Whereis extends Model {
     @PrimaryKey
     @Column
-    public chat_id: string;
+    public chatId: string;
 
     @Column
     public name?: string;
